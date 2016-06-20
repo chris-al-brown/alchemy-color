@@ -1,0 +1,327 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		83C94AC51D17D3D8004ABB09 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C94AC41D17D3D8004ABB09 /* Extensions.swift */; };
+		_LinkFileRef_AlchemyColor_via_AlchemyColorTestSuite /* AlchemyColor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "_____Product_AlchemyColor" /* AlchemyColor.framework */; };
+		__src_cc_ref_Sources/AlchemyColor.swift /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/AlchemyColor.swift /* Color.swift */; };
+		__src_cc_ref_Tests/AlchemyColor/AlchemyColorTests.swift /* AlchemyColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Tests/AlchemyColor/AlchemyColorTests.swift /* AlchemyColorTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		83C94ABC1D17CFB1004ABB09 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = __RootObject_ /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "______Target_AlchemyColor";
+			remoteInfo = AlchemyColor;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		8389846D1D17D49000594FB4 /* Demo.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Demo.playground; sourceTree = "<group>"; };
+		83C94ABF1D17D085004ABB09 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
+		83C94AC01D17D085004ABB09 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		83C94AC41D17D3D8004ABB09 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = Sources/Extensions.swift; sourceTree = "<group>"; };
+		__PBXFileRef_AlchemyColor.xcodeproj/Configs/Project.xcconfig /* Project.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Project.xcconfig; path = AlchemyColor.xcodeproj/Configs/Project.xcconfig; sourceTree = "<group>"; };
+		__PBXFileRef_AlchemyColorTestSuite_Info.plist /* AlchemyColorTestSuite_Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = AlchemyColorTestSuite_Info.plist; path = AlchemyColor.xcodeproj/AlchemyColorTestSuite_Info.plist; sourceTree = SOURCE_ROOT; };
+		__PBXFileRef_AlchemyColor_Info.plist /* AlchemyColor_Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = AlchemyColor_Info.plist; path = AlchemyColor.xcodeproj/AlchemyColor_Info.plist; sourceTree = SOURCE_ROOT; };
+		__PBXFileRef_Package.swift /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		__PBXFileRef_Sources/AlchemyColor.swift /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Color.swift; path = Sources/Color.swift; sourceTree = "<group>"; };
+		__PBXFileRef_Tests/AlchemyColor/AlchemyColorTests.swift /* AlchemyColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlchemyColorTests.swift; sourceTree = "<group>"; };
+		"_____Product_AlchemyColor" /* AlchemyColor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AlchemyColor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"_____Product_AlchemyColorTestSuite" /* AlchemyColorTestSuite.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = AlchemyColorTestSuite.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		"___LinkPhase_AlchemyColor" /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		"___LinkPhase_AlchemyColorTestSuite" /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				_LinkFileRef_AlchemyColor_via_AlchemyColorTestSuite /* AlchemyColor.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		83C94ABD1D17CFC0004ABB09 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				__PBXFileRef_AlchemyColor_Info.plist /* AlchemyColor_Info.plist */,
+				__PBXFileRef_AlchemyColorTestSuite_Info.plist /* AlchemyColorTestSuite_Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		TestProducts_ /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				"_____Product_AlchemyColorTestSuite" /* AlchemyColorTestSuite.xctest */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
+		"___RootGroup_" = {
+			isa = PBXGroup;
+			children = (
+				83C94ABF1D17D085004ABB09 /* LICENSE.md */,
+				83C94AC01D17D085004ABB09 /* README.md */,
+				__PBXFileRef_Package.swift /* Package.swift */,
+				8389846D1D17D49000594FB4 /* Demo.playground */,
+				"_____Configs_" /* Configs */,
+				"_____Sources_" /* Sources */,
+				83C94ABD1D17CFC0004ABB09 /* Supporting Files */,
+				"_______Tests_" /* Tests */,
+				"____Products_" /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		"____Products_" /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				TestProducts_ /* Tests */,
+				"_____Product_AlchemyColor" /* AlchemyColor.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		"_____Configs_" /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				__PBXFileRef_AlchemyColor.xcodeproj/Configs/Project.xcconfig /* Project.xcconfig */,
+			);
+			name = Configs;
+			sourceTree = "<group>";
+		};
+		"_____Sources_" /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				__PBXFileRef_Sources/AlchemyColor.swift /* Color.swift */,
+				83C94AC41D17D3D8004ABB09 /* Extensions.swift */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		"_______Group_AlchemyColorTestSuite" /* AlchemyColorTestSuite */ = {
+			isa = PBXGroup;
+			children = (
+				__PBXFileRef_Tests/AlchemyColor/AlchemyColorTests.swift /* AlchemyColorTests.swift */,
+			);
+			name = AlchemyColorTestSuite;
+			path = Tests/AlchemyColor;
+			sourceTree = "<group>";
+		};
+		"_______Tests_" /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				"_______Group_AlchemyColorTestSuite" /* AlchemyColorTestSuite */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		"______Target_AlchemyColor" /* AlchemyColor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = "_______Confs_AlchemyColor" /* Build configuration list for PBXNativeTarget "AlchemyColor" */;
+			buildPhases = (
+				CompilePhase_AlchemyColor /* Sources */,
+				"___LinkPhase_AlchemyColor" /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AlchemyColor;
+			productName = AlchemyColor;
+			productReference = "_____Product_AlchemyColor" /* AlchemyColor.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"______Target_AlchemyColorTestSuite" /* AlchemyColorTestSuite */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = "_______Confs_AlchemyColorTestSuite" /* Build configuration list for PBXNativeTarget "AlchemyColorTestSuite" */;
+			buildPhases = (
+				CompilePhase_AlchemyColorTestSuite /* Sources */,
+				"___LinkPhase_AlchemyColorTestSuite" /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				__Dependency_AlchemyColor /* PBXTargetDependency */,
+			);
+			name = AlchemyColorTestSuite;
+			productName = AlchemyColorTestSuite;
+			productReference = "_____Product_AlchemyColorTestSuite" /* AlchemyColorTestSuite.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		__RootObject_ /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 9999;
+			};
+			buildConfigurationList = "___RootConfs_" /* Build configuration list for PBXProject "AlchemyColor" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = "___RootGroup_";
+			productRefGroup = "____Products_" /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				"______Target_AlchemyColor" /* AlchemyColor */,
+				"______Target_AlchemyColorTestSuite" /* AlchemyColorTestSuite */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CompilePhase_AlchemyColor /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				__src_cc_ref_Sources/AlchemyColor.swift /* Color.swift in Sources */,
+				83C94AC51D17D3D8004ABB09 /* Extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CompilePhase_AlchemyColorTestSuite /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				__src_cc_ref_Tests/AlchemyColor/AlchemyColorTests.swift /* AlchemyColorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		__Dependency_AlchemyColor /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "______Target_AlchemyColor" /* AlchemyColor */;
+			targetProxy = 83C94ABC1D17CFB1004ABB09 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		_ReleaseConf_AlchemyColor /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 0.1;
+				ENABLE_TESTABILITY = YES;
+				INFOPLIST_FILE = AlchemyColor.xcodeproj/AlchemyColor_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		_ReleaseConf_AlchemyColorTestSuite /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = AlchemyColor.xcodeproj/AlchemyColorTestSuite_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+			};
+			name = Release;
+		};
+		"___DebugConf_AlchemyColor" /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 0.1;
+				ENABLE_TESTABILITY = YES;
+				INFOPLIST_FILE = AlchemyColor.xcodeproj/AlchemyColor_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		"___DebugConf_AlchemyColorTestSuite" /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = AlchemyColor.xcodeproj/AlchemyColorTestSuite_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		"_____Release_" /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = __PBXFileRef_AlchemyColor.xcodeproj/Configs/Project.xcconfig /* Project.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		"_______Debug_" /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = __PBXFileRef_AlchemyColor.xcodeproj/Configs/Project.xcconfig /* Project.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		"___RootConfs_" /* Build configuration list for PBXProject "AlchemyColor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				"_______Debug_" /* Debug */,
+				"_____Release_" /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		"_______Confs_AlchemyColor" /* Build configuration list for PBXNativeTarget "AlchemyColor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				"___DebugConf_AlchemyColor" /* Debug */,
+				_ReleaseConf_AlchemyColor /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		"_______Confs_AlchemyColorTestSuite" /* Build configuration list for PBXNativeTarget "AlchemyColorTestSuite" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				"___DebugConf_AlchemyColorTestSuite" /* Debug */,
+				_ReleaseConf_AlchemyColorTestSuite /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = __RootObject_ /* Project object */;
+}
