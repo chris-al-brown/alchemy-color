@@ -25,3 +25,22 @@
 // -----------------------------------------------------------------------------
 
 import AlchemyColor
+
+/// Load a pixel from a grayscale image
+let pixel = GrayColor<UInt8>(0xF1)
+
+/// Promote to allow floating point conversions
+let gray = GrayColor<Double>(pixel)
+
+/// Operate on the promoted values
+var hsv = HSVColor(RGBColor(gray))
+
+/// Do some conversion
+hsv[0] *= 0.5
+hsv[1] *= 2.0
+hsv[2] *= 0.75
+
+var newGray = GrayColor(RGBColor(hsv))
+
+/// Store in a different optimized format
+let newPixel = GrayColor<UInt16>(newGray)
