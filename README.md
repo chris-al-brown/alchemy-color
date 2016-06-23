@@ -30,7 +30,7 @@ AlchemyColor is a Swift package for colors and colorspaces
 
 While AlchemyColor has only been tested on OS X with a beta version of Xcode, 
 it should presumably work on iOS, tvOS, and watchOS as well.  It only depends on the 
-the Swift standard library with optional added extensions to Cocoa, CocoaTouch, 
+the Swift standard library with optional added extensions to AppKit, UIKit, 
 CoreGraphics, and simd. 
 
 ## Installation
@@ -58,7 +58,9 @@ Check out 'Demo.playground' for example usage.
 
 ## References
 
-1. [SwiftHEXColors](https://github.com/thii/SwiftHEXColors)
+1. [Color Conversion Algorithms](https://www.cs.rit.edu/~ncs/color/t_convert.html)
+
+2. [SwiftHEXColors](https://github.com/thii/SwiftHEXColors)
 
 ## License
 
@@ -66,5 +68,6 @@ AlchemyColor is released under the [MIT License](LICENSE.md).
 
 ## TODO
 
-- [ ] Add NSColor, UIColor, CGColor conversion methods
-- [ ] Add CMYK support
+- [x] Add NSColor, UIColor conversion methods
+- [ ] Add String/Int hex init methods
+- [ ] Add GrayAlphaColor, RGBAColor, HSVAColor

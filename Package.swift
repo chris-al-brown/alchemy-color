@@ -27,7 +27,5 @@
 import PackageDescription
 
 let package = Package(
-    name: "AlchemyColor",
-    targets: [],
-    dependencies: [.Package(url:"https://github.com/chris-al-brown/alchemy-interpolation.git", majorVersion:0, minor:1)]
+    name: "AlchemyColor"
 )
