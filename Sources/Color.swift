@@ -104,18 +104,14 @@ private func _saturate<T: FloatingPoint>(_ value: T) -> T {
 public protocol EncodableStorage {
 
     /// ...
-    static var min: Self { get }
-
-    /// ...
-    static var max: Self { get }
-    
-    /// ...
     static func decode<T: FloatingPointStorage>(encodedStorage value: Self) -> T
     
     /// ...
     static func encode<T: FloatingPointStorage>(floatingStorage value: T) -> Self
-}
 
+    /// ...
+    static var max: Self { get }
+}
 
 /// ...
 extension UInt8: EncodableStorage {
@@ -438,13 +434,13 @@ extension GrayAlphaColor: CustomStringConvertible {
 extension GrayAlphaColor where Storage: FloatingPointStorage {
     
     /// ...
-    public init(_ color: RGBColor<Storage>) {
-        self.init(Storage.luminance(red:color.red, green:color.green, blue:color.blue), Storage(1))
+    public init(_ color: RGBColor<Storage>, alpha: Storage = Storage(1)) {
+        self.init(Storage.luminance(red:color.red, green:color.green, blue:color.blue), alpha)
     }
     
     /// ...
-    public init<OtherStorage: EncodableStorage>(_ color: GrayColor<OtherStorage>) {
-        self.init(OtherStorage.decode(encodedStorage:color.gray), Storage(1))
+    public init<OtherStorage: EncodableStorage>(_ color: GrayColor<OtherStorage>, alpha: Storage = Storage(1)) {
+        self.init(OtherStorage.decode(encodedStorage:color.gray), alpha)
     }
     
     /// ...
@@ -457,13 +453,13 @@ extension GrayAlphaColor where Storage: FloatingPointStorage {
 extension GrayAlphaColor where Storage: EncodableStorage {
     
     /// ...
-    public init<OtherStorage: FloatingPointStorage>(_ color: GrayColor<OtherStorage>) {
-        self.init(Storage.encode(floatingStorage:color.gray), Storage.encode(floatingStorage:OtherStorage(1)))
+    public init<OtherStorage: FloatingPointStorage>(_ color: GrayColor<OtherStorage>, alpha: Storage = Storage.max) {
+        self.init(Storage.encode(floatingStorage:color.gray), alpha)
     }
     
     /// ...
     public init<OtherStorage: FloatingPointStorage>(_ color: GrayAlphaColor<OtherStorage>) {
-        self.init(Storage.encode(floatingStorage:color.gray), Storage.encode(floatingStorage:OtherStorage(1)))
+        self.init(Storage.encode(floatingStorage:color.gray), Storage.encode(floatingStorage:color.alpha))
     }
 }
 

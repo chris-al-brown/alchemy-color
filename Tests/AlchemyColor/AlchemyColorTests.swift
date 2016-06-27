@@ -156,6 +156,8 @@ class AlchemyColorTests: XCTestCase {
     
     /// ...
     func testGrayColor() {
+        let gray = random() as GrayColor<Float>
+        XCTAssert(!gray.hasAlpha, "\(gray) should not have an alpha channel")
         for _ in 0..<sampleCount {
             let gray1 = GrayColor<UInt8>(random() as GrayColor<Float>)
             assayBounds(of:gray1, min:UInt8.min, max:UInt8.max)
@@ -176,6 +178,8 @@ class AlchemyColorTests: XCTestCase {
 
     /// ...
     func testGrayAlphaColor() {
+        let gray = random() as GrayAlphaColor<Float>
+        XCTAssert(gray.hasAlpha, "\(gray) should have an alpha channel")
         for _ in 0..<sampleCount {
             let gray1 = GrayAlphaColor<UInt8>(random() as GrayAlphaColor<Float>)
             assayBounds(of:gray1, min:UInt8.min, max:UInt8.max)
@@ -196,6 +200,8 @@ class AlchemyColorTests: XCTestCase {
 
     /// ...
     func testRGBColor() {
+        let rgb = random() as RGBColor<Float>
+        XCTAssert(!rgb.hasAlpha, "\(rgb) should not have an alpha channel")
         for _ in 0..<sampleCount {
             let rgb1 = RGBColor<UInt8>(random() as RGBColor<Float>)
             assayBounds(of:rgb1, min:UInt8.min, max:UInt8.max)
@@ -220,6 +226,8 @@ class AlchemyColorTests: XCTestCase {
     
     /// ...
     func testHSVColor() {
+        let hsv = random() as HSVColor<Float>
+        XCTAssert(!hsv.hasAlpha, "\(hsv) should not have an alpha channel")
         for _ in 0..<sampleCount {
             let hsv1 = HSVColor<UInt8>(random() as HSVColor<Float>)
             assayBounds(of:hsv1, min:UInt8.min, max:UInt8.max)

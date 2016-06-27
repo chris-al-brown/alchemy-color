@@ -43,4 +43,4 @@ hsv[2] *= 0.75
 var newGray = GrayColor(RGBColor(hsv))
 
 /// Store in a different optimized format
-let newPixel = GrayColor<UInt16>(newGray)
+let newPixel = GrayAlphaColor<UInt16>(newGray, alpha:UInt16.max / 2)
