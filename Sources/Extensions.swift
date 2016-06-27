@@ -62,6 +62,16 @@
         }
 
         ///
+        public convenience init(_ color: HSVAColor<Float>) {
+            self.init(hue:CGFloat(color.hue), saturation:CGFloat(color.saturation), brightness:CGFloat(color.value), alpha:CGFloat(color.alpha))
+        }
+        
+        ///
+        public convenience init(_ color: HSVAColor<Double>) {
+            self.init(hue:CGFloat(color.hue), saturation:CGFloat(color.saturation), brightness:CGFloat(color.value), alpha:CGFloat(color.alpha))
+        }
+
+        ///
         public convenience init(_ color: RGBColor<Float>) {
             self.init(red:CGFloat(color.red), green:CGFloat(color.green), blue:CGFloat(color.blue), alpha:1.0)
         }
@@ -69,6 +79,16 @@
         ///
         public convenience init(_ color: RGBColor<Double>) {
             self.init(red:CGFloat(color.red), green:CGFloat(color.green), blue:CGFloat(color.blue), alpha:1.0)
+        }
+
+        ///
+        public convenience init(_ color: RGBAColor<Float>) {
+            self.init(red:CGFloat(color.red), green:CGFloat(color.green), blue:CGFloat(color.blue), alpha:CGFloat(color.alpha))
+        }
+        
+        ///
+        public convenience init(_ color: RGBAColor<Double>) {
+            self.init(red:CGFloat(color.red), green:CGFloat(color.green), blue:CGFloat(color.blue), alpha:CGFloat(color.alpha))
         }
     }
 
@@ -110,6 +130,16 @@
         }
         
         ///
+        public convenience init(_ color: HSVAColor<Float>) {
+            self.init(hue:CGFloat(color.hue), saturation:CGFloat(color.saturation), brightness:CGFloat(color.value), alpha:CGFloat(color.alpha))
+        }
+        
+        ///
+        public convenience init(_ color: HSVAColor<Double>) {
+            self.init(hue:CGFloat(color.hue), saturation:CGFloat(color.saturation), brightness:CGFloat(color.value), alpha:CGFloat(color.alpha))
+        }
+
+        ///
         public convenience init(_ color: RGBColor<Float>) {
             self.init(red:CGFloat(color.red), green:CGFloat(color.green), blue:CGFloat(color.blue), alpha:1.0)
         }
@@ -117,6 +147,16 @@
         ///
         public convenience init(_ color: RGBColor<Double>) {
             self.init(red:CGFloat(color.red), green:CGFloat(color.green), blue:CGFloat(color.blue), alpha:1.0)
+        }
+        
+        ///
+        public convenience init(_ color: RGBAColor<Float>) {
+            self.init(red:CGFloat(color.red), green:CGFloat(color.green), blue:CGFloat(color.blue), alpha:CGFloat(color.alpha))
+        }
+        
+        ///
+        public convenience init(_ color: RGBAColor<Double>) {
+            self.init(red:CGFloat(color.red), green:CGFloat(color.green), blue:CGFloat(color.blue), alpha:CGFloat(color.alpha))
         }
     }
     

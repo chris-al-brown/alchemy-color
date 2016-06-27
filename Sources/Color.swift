@@ -290,6 +290,11 @@ public struct GrayColor<Storage>: Color {
     public init(_ gray: Storage) {
         self.gray = gray
     }
+    
+    /// ...
+    public init(_ color: GrayAlphaColor<Storage>) {
+        self.init(color.gray)
+    }
 
     /// ...
     public subscript (channel: Int) -> Storage {
@@ -339,6 +344,11 @@ extension GrayColor where Storage: FloatingPointStorage {
     
     /// ...
     public init(_ color: RGBColor<Storage>) {
+        self.init(Storage.luminance(red:color.red, green:color.green, blue:color.blue))
+    }
+    
+    /// ...
+    public init(_ color: RGBAColor<Storage>) {
         self.init(Storage.luminance(red:color.red, green:color.green, blue:color.blue))
     }
     
@@ -437,7 +447,12 @@ extension GrayAlphaColor where Storage: FloatingPointStorage {
     public init(_ color: RGBColor<Storage>, alpha: Storage = Storage(1)) {
         self.init(Storage.luminance(red:color.red, green:color.green, blue:color.blue), alpha)
     }
-    
+
+    /// ...
+    public init(_ color: RGBAColor<Storage>) {
+        self.init(Storage.luminance(red:color.red, green:color.green, blue:color.blue), color.alpha)
+    }
+
     /// ...
     public init<OtherStorage: EncodableStorage>(_ color: GrayColor<OtherStorage>, alpha: Storage = Storage(1)) {
         self.init(OtherStorage.decode(encodedStorage:color.gray), alpha)
@@ -474,6 +489,11 @@ public struct HSVColor<Storage>: Color {
         self.hue = hue
         self.saturation = saturation
         self.value = value
+    }
+
+    /// ...
+    public init(_ color: HSVAColor<Storage>) {
+        self.init(color.hue, color.saturation, color.value)
     }
 
     /// ...
@@ -539,6 +559,12 @@ extension HSVColor where Storage: FloatingPointStorage {
     
     /// ...
     public init(_ color: RGBColor<Storage>) {
+        let (hue, saturation, value) = Storage.convert(red:color.red, green:color.green, blue:color.blue)
+        self.init(hue, saturation, value)
+    }
+
+    /// ...
+    public init(_ color: RGBAColor<Storage>) {
         let (hue, saturation, value) = Storage.convert(red:color.red, green:color.green, blue:color.blue)
         self.init(hue, saturation, value)
     }
@@ -662,13 +688,24 @@ extension HSVAColor: CustomStringConvertible {
 
 /// ...
 extension HSVAColor where Storage: FloatingPointStorage {
-    
+
+    /// ...
+    public init(_ color: HSVColor<Storage>, alpha: Storage = Storage(1)) {
+        self.init(color.hue, color.saturation, color.value, alpha)
+    }
+
     /// ...
     public init(_ color: RGBColor<Storage>, alpha: Storage = Storage(1)) {
         let (hue, saturation, value) = Storage.convert(red:color.red, green:color.green, blue:color.blue)
         self.init(hue, saturation, value, alpha)
     }
-    
+
+    /// ...
+    public init(_ color: RGBAColor<Storage>) {
+        let (hue, saturation, value) = Storage.convert(red:color.red, green:color.green, blue:color.blue)
+        self.init(hue, saturation, value, color.alpha)
+    }
+
     /// ...
     public init<OtherStorage: EncodableStorage>(_ color: HSVColor<OtherStorage>, alpha: Storage = Storage(1)) {
         let hue: Storage = OtherStorage.decode(encodedStorage:color.hue)
@@ -691,6 +728,11 @@ extension HSVAColor where Storage: FloatingPointStorage {
 extension HSVAColor where Storage: EncodableStorage {
     
     /// ...
+    public init(_ color: HSVColor<Storage>, alpha: Storage = Storage.max) {
+        self.init(color.hue, color.saturation, color.value, alpha)
+    }
+
+    /// ...
     public init<OtherStorage: FloatingPointStorage>(_ color: HSVColor<OtherStorage>, alpha: Storage = Storage.max) {
         let hue = Storage.encode(floatingStorage:color.hue)
         let saturation = Storage.encode(floatingStorage:color.saturation)
@@ -707,22 +749,6 @@ extension HSVAColor where Storage: EncodableStorage {
         self.init(hue, saturation, value, alpha)
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /// ...
 public struct RGBColor<Storage>: Color {
@@ -745,6 +771,11 @@ public struct RGBColor<Storage>: Color {
     /// ...
     public init(_ color: GrayAlphaColor<Storage>) {
         self.init(color.gray, color.gray, color.gray)
+    }
+    
+    /// ...
+    public init(_ color: RGBAColor<Storage>) {
+        self.init(color.red, color.green, color.blue)
     }
 
     /// ...
@@ -813,9 +844,23 @@ extension RGBColor where Storage: FloatingPointStorage {
         let (red, green, blue) = Storage.convert(hue:color.hue, saturation:color.saturation, value:color.value)
         self.init(red, green, blue)
     }
+    
+    /// ...
+    public init(_ color: HSVAColor<Storage>) {
+        let (red, green, blue) = Storage.convert(hue:color.hue, saturation:color.saturation, value:color.value)
+        self.init(red, green, blue)
+    }
 
     /// ...
     public init<OtherStorage: EncodableStorage>(_ color: RGBColor<OtherStorage>) {
+        let red: Storage = OtherStorage.decode(encodedStorage:color.red)
+        let green: Storage = OtherStorage.decode(encodedStorage:color.green)
+        let blue: Storage = OtherStorage.decode(encodedStorage:color.blue)
+        self.init(red, green, blue)
+    }
+    
+    /// ...
+    public init<OtherStorage: EncodableStorage>(_ color: RGBAColor<OtherStorage>) {
         let red: Storage = OtherStorage.decode(encodedStorage:color.red)
         let green: Storage = OtherStorage.decode(encodedStorage:color.green)
         let blue: Storage = OtherStorage.decode(encodedStorage:color.blue)
@@ -833,4 +878,177 @@ extension RGBColor where Storage: EncodableStorage {
         let blue = Storage.encode(floatingStorage:color.blue)
         self.init(red, green, blue)
     }
+    
+    /// ...
+    public init<OtherStorage: FloatingPointStorage>(_ color: RGBAColor<OtherStorage>) {
+        let red = Storage.encode(floatingStorage:color.red)
+        let green = Storage.encode(floatingStorage:color.green)
+        let blue = Storage.encode(floatingStorage:color.blue)
+        self.init(red, green, blue)
+    }
 }
+
+/// ...
+public struct RGBAColor<Storage>: Color {
+    
+    /// ...
+    public typealias ChannelStorage = Storage
+    
+    /// ...
+    public init(_ red: Storage, _ green: Storage, _ blue: Storage, _ alpha: Storage) {
+        self.red = red
+        self.green = green
+        self.blue = blue
+        self.alpha = alpha
+    }
+    
+    /// ...
+    public init(_ color: GrayAlphaColor<Storage>) {
+        self.init(color.gray, color.gray, color.gray, color.alpha)
+    }
+    
+    /// ...
+    public subscript (channel: Int) -> Storage {
+        get {
+            switch channel {
+            case 0:
+                return red
+            case 1:
+                return green
+            case 2:
+                return blue
+            case 3:
+                return alpha
+            default:
+                assertionFailure("channel (\(channel)) must be strictly in 0..<\(channelCount)")
+                return red
+            }
+        }
+        mutating set {
+            switch channel {
+            case 0:
+                red = newValue
+            case 1:
+                green = newValue
+            case 2:
+                blue = newValue
+            case 3:
+                alpha = newValue
+            default:
+                assertionFailure("channel (\(channel)) must be strictly in 0..<\(channelCount)")
+                break
+            }
+        }
+    }
+    
+    /// ...
+    public var alphaChannel: Storage? {
+        return alpha
+    }
+    
+    /// ...
+    public var channelCount: Int {
+        return 4
+    }
+    
+    /// ...
+    public var red: Storage
+    
+    /// ...
+    public var green: Storage
+    
+    /// ...
+    public var blue: Storage
+
+    /// ...
+    public var alpha: Storage
+}
+
+/// ...
+extension RGBAColor: CustomStringConvertible {
+    
+    public var description: String {
+        return "RGBAColor<\(Storage.self)>(\(red), \(green), \(blue), \(alpha))"
+    }
+}
+
+/// ...
+extension RGBAColor where Storage: FloatingPointStorage {
+    
+    /// ...
+    public init(_ color: GrayColor<Storage>, alpha: Storage = Storage(1)) {
+        self.init(color.gray, color.gray, color.gray, alpha)
+    }
+
+    /// ...
+    public init(_ color: HSVColor<Storage>, alpha: Storage = Storage(1)) {
+        let (red, green, blue) = Storage.convert(hue:color.hue, saturation:color.saturation, value:color.value)
+        self.init(red, green, blue, alpha)
+    }
+    
+    /// ...
+    public init(_ color: HSVAColor<Storage>) {
+        let (red, green, blue) = Storage.convert(hue:color.hue, saturation:color.saturation, value:color.value)
+        self.init(red, green, blue, color.alpha)
+    }
+    
+    /// ...
+    public init(_ color: RGBColor<Storage>, alpha: Storage = Storage(1)) {
+        self.init(color.red, color.green, color.blue, alpha)
+    }
+    
+    /// ...
+    public init<OtherStorage: EncodableStorage>(_ color: RGBColor<OtherStorage>, alpha: Storage = Storage(1)) {
+        let red: Storage = OtherStorage.decode(encodedStorage:color.red)
+        let green: Storage = OtherStorage.decode(encodedStorage:color.green)
+        let blue: Storage = OtherStorage.decode(encodedStorage:color.blue)
+        self.init(red, green, blue, alpha)
+    }
+    
+    /// ...
+    public init<OtherStorage: EncodableStorage>(_ color: RGBAColor<OtherStorage>) {
+        let red: Storage = OtherStorage.decode(encodedStorage:color.red)
+        let green: Storage = OtherStorage.decode(encodedStorage:color.green)
+        let blue: Storage = OtherStorage.decode(encodedStorage:color.blue)
+        let alpha: Storage = OtherStorage.decode(encodedStorage:color.alpha)
+        self.init(red, green, blue, alpha)
+    }
+}
+
+/// ...
+extension RGBAColor where Storage: EncodableStorage {
+    
+    /// ...
+    public init(_ color: GrayColor<Storage>, alpha: Storage = Storage.max) {
+        self.init(color.gray, color.gray, color.gray, alpha)
+    }
+
+    /// ...
+    public init<OtherStorage: FloatingPointStorage>(_ color: RGBColor<OtherStorage>, alpha: Storage = Storage.max) {
+        let red = Storage.encode(floatingStorage:color.red)
+        let green = Storage.encode(floatingStorage:color.green)
+        let blue = Storage.encode(floatingStorage:color.blue)
+        self.init(red, green, blue, alpha)
+    }
+    
+    /// ...
+    public init<OtherStorage: FloatingPointStorage>(_ color: RGBAColor<OtherStorage>) {
+        let red = Storage.encode(floatingStorage:color.red)
+        let green = Storage.encode(floatingStorage:color.green)
+        let blue = Storage.encode(floatingStorage:color.blue)
+        let alpha = Storage.encode(floatingStorage:color.alpha)
+        self.init(red, green, blue, alpha)
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+

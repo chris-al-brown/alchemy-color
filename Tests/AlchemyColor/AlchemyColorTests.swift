@@ -173,6 +173,38 @@ public func random() -> RGBColor<Double> {
     return RGBColor(r, g, b)
 }
 
+/// Returns a uniform RGBAColor<UInt8>
+public func random() -> RGBAColor<UInt8> {
+    let r = UInt8.encode(floatingStorage:uniform())
+    let g = UInt8.encode(floatingStorage:uniform())
+    let b = UInt8.encode(floatingStorage:uniform())
+    let a = UInt8.encode(floatingStorage:uniform())
+    return RGBAColor(r, g, b, a)
+}
+
+/// Returns a uniform RGBAColor<UInt16>
+public func random() -> RGBAColor<UInt16> {
+    let r = UInt16.encode(floatingStorage:uniform())
+    let g = UInt16.encode(floatingStorage:uniform())
+    let b = UInt16.encode(floatingStorage:uniform())
+    let a = UInt16.encode(floatingStorage:uniform())
+    return RGBAColor(r, g, b, a)
+}
+
+/// Returns a uniform RGBAColor<Float>
+public func random() -> RGBAColor<Float> {
+    return RGBAColor(uniform(), uniform(), uniform(), uniform())
+}
+
+/// Returns a uniform RGBAColor<Double>
+public func random() -> RGBAColor<Double> {
+    let r = Double(uniform())
+    let g = Double(uniform())
+    let b = Double(uniform())
+    let a = Double(uniform())
+    return RGBAColor(r, g, b, a)
+}
+
 /// ...
 let sampleCount = 10_000
 
@@ -256,6 +288,43 @@ class AlchemyColorTests: XCTestCase {
             assayBounds(of:rgb7, min:0.0, max:1.0)
             let rgb8 = RGBColor<Double>(random() as HSVColor<Double>)
             assayBounds(of:rgb8, min:0.0, max:1.0)
+
+            let rgb9 = RGBColor<Float>(random() as RGBAColor<Float>)
+            assayBounds(of:rgb9, min:0.0, max:1.0)
+            let rgb0 = RGBColor<Double>(random() as RGBAColor<Double>)
+            assayBounds(of:rgb0, min:0.0, max:1.0)
+        }
+    }
+    
+    /// ...
+    func testRGBAColor() {
+        let rgba = random() as RGBAColor<Float>
+        XCTAssert(rgba.hasAlpha, "\(rgba) should have an alpha channel")
+        XCTAssert(rgba.channelCount == 4, "\(rgba) should have 4 channels")
+        for _ in 0..<sampleCount {
+            let rgb1 = RGBAColor<UInt8>(random() as RGBColor<Float>)
+            assayBounds(of:rgb1, min:UInt8.min, max:UInt8.max)
+            let rgb2 = RGBAColor<Double>(random() as RGBColor<UInt16>)
+            assayBounds(of:rgb2, min:0.0, max:1.0)
+            
+            let rgb3 = RGBAColor<UInt8>(random() as GrayColor<UInt8>)
+            assayBounds(of:rgb3, min:UInt8.min, max:UInt8.max)
+            let rgb4 = RGBAColor<UInt16>(random() as GrayColor<UInt16>)
+            assayBounds(of:rgb4, min:UInt16.min, max:UInt16.max)
+            let rgb5 = RGBAColor<Float>(random() as GrayColor<Float>)
+            assayBounds(of:rgb5, min:0.0, max:1.0)
+            let rgb6 = RGBAColor<Double>(random() as GrayColor<Double>)
+            assayBounds(of:rgb6, min:0.0, max:1.0)
+            
+            let rgb7 = RGBAColor<Float>(random() as HSVColor<Float>)
+            assayBounds(of:rgb7, min:0.0, max:1.0)
+            let rgb8 = RGBAColor<Double>(random() as HSVColor<Double>)
+            assayBounds(of:rgb8, min:0.0, max:1.0)
+            
+            let rgb9 = RGBAColor<Float>(random() as RGBColor<Float>)
+            assayBounds(of:rgb9, min:0.0, max:1.0)
+            let rgb0 = RGBAColor<Double>(random() as RGBColor<Double>)
+            assayBounds(of:rgb0, min:0.0, max:1.0)
         }
     }
     
@@ -302,6 +371,11 @@ class AlchemyColorTests: XCTestCase {
             assayBounds(of:hsva5, min:UInt8.min, max:UInt8.max)
             let hsva6 = HSVAColor<Double>(random() as HSVAColor<UInt16>)
             assayBounds(of:hsva6, min:0.0, max:1.0)
+
+            let hsva7 = HSVAColor<UInt8>(random() as HSVColor<UInt8>)
+            assayBounds(of:hsva7, min:UInt8.min, max:UInt8.max)
+            let hsva8 = HSVAColor<Double>(random() as HSVColor<Double>)
+            assayBounds(of:hsva8, min:0.0, max:1.0)
         }
     }
 
@@ -312,7 +386,8 @@ class AlchemyColorTests: XCTestCase {
             ("testGrayAlphaColor", testGrayAlphaColor),
             ("testHSVColor", testHSVColor),
             ("testHSVAColor", testHSVAColor),
-            ("testRGBColor", testRGBColor)
+            ("testRGBColor", testRGBColor),
+            ("testRGBAColor", testRGBAColor)
         ]
     }
 }
