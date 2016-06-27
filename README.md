@@ -71,5 +71,5 @@ AlchemyColor is released under the [MIT License](LICENSE.md).
 - [x] Add NSColor, UIColor conversion methods
 - [x] Add GrayAlphaColor
 - [ ] Add RGBAColor
-- [ ] Add HSVAColor
+- [x] Add HSVAColor
 - [ ] Add String/Int hex init methods

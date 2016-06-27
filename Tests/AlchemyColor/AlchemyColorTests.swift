@@ -85,18 +85,18 @@ public func random() -> GrayAlphaColor<Double> {
 
 /// Returns a uniform HSVColor<UInt8>
 public func random() -> HSVColor<UInt8> {
-    let r = UInt8.encode(floatingStorage:uniform())
-    let g = UInt8.encode(floatingStorage:uniform())
-    let b = UInt8.encode(floatingStorage:uniform())
-    return HSVColor(r, g, b)
+    let h = UInt8.encode(floatingStorage:uniform())
+    let s = UInt8.encode(floatingStorage:uniform())
+    let v = UInt8.encode(floatingStorage:uniform())
+    return HSVColor(h, s, v)
 }
 
 /// Returns a uniform HSVColor<UInt16>
 public func random() -> HSVColor<UInt16> {
-    let r = UInt16.encode(floatingStorage:uniform())
-    let g = UInt16.encode(floatingStorage:uniform())
-    let b = UInt16.encode(floatingStorage:uniform())
-    return HSVColor(r, g, b)
+    let h = UInt16.encode(floatingStorage:uniform())
+    let s = UInt16.encode(floatingStorage:uniform())
+    let v = UInt16.encode(floatingStorage:uniform())
+    return HSVColor(h, s, v)
 }
 
 /// Returns a uniform HSVColor<Float>
@@ -106,10 +106,42 @@ public func random() -> HSVColor<Float> {
 
 /// Returns a uniform HSVColor<Double>
 public func random() -> HSVColor<Double> {
-    let r = Double(uniform())
-    let g = Double(uniform())
-    let b = Double(uniform())
-    return HSVColor(r, g, b)
+    let h = Double(uniform())
+    let s = Double(uniform())
+    let v = Double(uniform())
+    return HSVColor(h, s, v)
+}
+
+/// Returns a uniform HSVAColor<UInt8>
+public func random() -> HSVAColor<UInt8> {
+    let h = UInt8.encode(floatingStorage:uniform())
+    let s = UInt8.encode(floatingStorage:uniform())
+    let v = UInt8.encode(floatingStorage:uniform())
+    let a = UInt8.encode(floatingStorage:uniform())
+    return HSVAColor(h, s, v, a)
+}
+
+/// Returns a uniform HSVAColor<UInt16>
+public func random() -> HSVAColor<UInt16> {
+    let h = UInt16.encode(floatingStorage:uniform())
+    let s = UInt16.encode(floatingStorage:uniform())
+    let v = UInt16.encode(floatingStorage:uniform())
+    let a = UInt16.encode(floatingStorage:uniform())
+    return HSVAColor(h, s, v, a)
+}
+
+/// Returns a uniform HSVAColor<Float>
+public func random() -> HSVAColor<Float> {
+    return HSVAColor(uniform(), uniform(), uniform(), uniform())
+}
+
+/// Returns a uniform HSVAColor<Double>
+public func random() -> HSVAColor<Double> {
+    let h = Double(uniform())
+    let s = Double(uniform())
+    let v = Double(uniform())
+    let a = Double(uniform())
+    return HSVAColor(h, s, v, a)
 }
 
 /// Returns a uniform RGBColor<UInt8>
@@ -158,6 +190,7 @@ class AlchemyColorTests: XCTestCase {
     func testGrayColor() {
         let gray = random() as GrayColor<Float>
         XCTAssert(!gray.hasAlpha, "\(gray) should not have an alpha channel")
+        XCTAssert(gray.channelCount == 1, "\(gray) should have 1 channel")
         for _ in 0..<sampleCount {
             let gray1 = GrayColor<UInt8>(random() as GrayColor<Float>)
             assayBounds(of:gray1, min:UInt8.min, max:UInt8.max)
@@ -180,6 +213,7 @@ class AlchemyColorTests: XCTestCase {
     func testGrayAlphaColor() {
         let gray = random() as GrayAlphaColor<Float>
         XCTAssert(gray.hasAlpha, "\(gray) should have an alpha channel")
+        XCTAssert(gray.channelCount == 2, "\(gray) should have 2 channels")
         for _ in 0..<sampleCount {
             let gray1 = GrayAlphaColor<UInt8>(random() as GrayAlphaColor<Float>)
             assayBounds(of:gray1, min:UInt8.min, max:UInt8.max)
@@ -202,6 +236,7 @@ class AlchemyColorTests: XCTestCase {
     func testRGBColor() {
         let rgb = random() as RGBColor<Float>
         XCTAssert(!rgb.hasAlpha, "\(rgb) should not have an alpha channel")
+        XCTAssert(rgb.channelCount == 3, "\(rgb) should have 3 channels")
         for _ in 0..<sampleCount {
             let rgb1 = RGBColor<UInt8>(random() as RGBColor<Float>)
             assayBounds(of:rgb1, min:UInt8.min, max:UInt8.max)
@@ -228,6 +263,7 @@ class AlchemyColorTests: XCTestCase {
     func testHSVColor() {
         let hsv = random() as HSVColor<Float>
         XCTAssert(!hsv.hasAlpha, "\(hsv) should not have an alpha channel")
+        XCTAssert(hsv.channelCount == 3, "\(hsv) should have 3 channels")
         for _ in 0..<sampleCount {
             let hsv1 = HSVColor<UInt8>(random() as HSVColor<Float>)
             assayBounds(of:hsv1, min:UInt8.min, max:UInt8.max)
@@ -238,16 +274,45 @@ class AlchemyColorTests: XCTestCase {
             assayBounds(of:hsv3, min:0.0, max:1.0)
             let hsv4 = HSVColor<Double>(random() as RGBColor<Double>)
             assayBounds(of:hsv4, min:0.0, max:1.0)
+
+            let hsv5 = HSVColor<UInt8>(random() as HSVAColor<Float>)
+            assayBounds(of:hsv5, min:UInt8.min, max:UInt8.max)
+            let hsv6 = HSVColor<Double>(random() as HSVAColor<UInt16>)
+            assayBounds(of:hsv6, min:0.0, max:1.0)
         }
     }
-    
+
+    /// ...
+    func testHSVAColor() {
+        let hsva = random() as HSVAColor<Float>
+        XCTAssert(hsva.hasAlpha, "\(hsva) should have an alpha channel")
+        XCTAssert(hsva.channelCount == 4, "\(hsva) should have 4 channels")
+        for _ in 0..<sampleCount {
+            let hsva1 = HSVAColor<UInt8>(random() as HSVColor<Float>)
+            assayBounds(of:hsva1, min:UInt8.min, max:UInt8.max)
+            let hsva2 = HSVAColor<Double>(random() as HSVColor<UInt16>)
+            assayBounds(of:hsva2, min:0.0, max:1.0)
+            
+            let hsva3 = HSVAColor<Float>(random() as RGBColor<Float>)
+            assayBounds(of:hsva3, min:0.0, max:1.0)
+            let hsva4 = HSVAColor<Double>(random() as RGBColor<Double>)
+            assayBounds(of:hsva4, min:0.0, max:1.0)
+            
+            let hsva5 = HSVAColor<UInt8>(random() as HSVAColor<Float>)
+            assayBounds(of:hsva5, min:UInt8.min, max:UInt8.max)
+            let hsva6 = HSVAColor<Double>(random() as HSVAColor<UInt16>)
+            assayBounds(of:hsva6, min:0.0, max:1.0)
+        }
+    }
+
     /// ...
     static var allTests : [(String, (AlchemyColorTests) -> () throws -> Void)] {
         return [
             ("testGrayColor", testGrayColor),
             ("testGrayAlphaColor", testGrayAlphaColor),
-            ("testRGBColor", testRGBColor),
-            ("testHSVColor", testHSVColor)
+            ("testHSVColor", testHSVColor),
+            ("testHSVAColor", testHSVAColor),
+            ("testRGBColor", testRGBColor)
         ]
     }
 }

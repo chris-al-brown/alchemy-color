@@ -463,15 +463,6 @@ extension GrayAlphaColor where Storage: EncodableStorage {
     }
 }
 
-
-
-
-
-
-
-
-
-
 /// ...
 public struct HSVColor<Storage>: Color {
 
@@ -559,6 +550,15 @@ extension HSVColor where Storage: FloatingPointStorage {
         let value: Storage = OtherStorage.decode(encodedStorage:color.value)
         self.init(hue, saturation, value)
     }
+    
+    /// ...
+    public init<OtherStorage: EncodableStorage>(_ color: HSVAColor<OtherStorage>) {
+        let hue: Storage = OtherStorage.decode(encodedStorage:color.hue)
+        let saturation: Storage = OtherStorage.decode(encodedStorage:color.saturation)
+        let value: Storage = OtherStorage.decode(encodedStorage:color.value)
+        self.init(hue, saturation, value)
+    }
+
 }
 
 /// ...
@@ -571,7 +571,158 @@ extension HSVColor where Storage: EncodableStorage {
         let value = Storage.encode(floatingStorage:color.value)
         self.init(hue, saturation, value)
     }
+
+    /// ...
+    public init<OtherStorage: FloatingPointStorage>(_ color: HSVAColor<OtherStorage>) {
+        let hue = Storage.encode(floatingStorage:color.hue)
+        let saturation = Storage.encode(floatingStorage:color.saturation)
+        let value = Storage.encode(floatingStorage:color.value)
+        self.init(hue, saturation, value)
+    }
 }
+
+/// ...
+public struct HSVAColor<Storage>: Color {
+    
+    /// ...
+    public typealias ChannelStorage = Storage
+    
+    /// ...
+    public init(_ hue: Storage, _ saturation: Storage, _ value: Storage, _ alpha: Storage) {
+        self.hue = hue
+        self.saturation = saturation
+        self.value = value
+        self.alpha = alpha
+    }
+    
+    /// ...
+    public subscript (channel: Int) -> Storage {
+        get {
+            switch channel {
+            case 0:
+                return hue
+            case 1:
+                return saturation
+            case 2:
+                return value
+            case 3:
+                return alpha
+            default:
+                assertionFailure("channel (\(channel)) must be strictly in 0..<\(channelCount)")
+                return hue
+            }
+        }
+        mutating set {
+            switch channel {
+            case 0:
+                hue = newValue
+            case 1:
+                saturation = newValue
+            case 2:
+                value = newValue
+            case 3:
+                alpha = newValue
+            default:
+                assertionFailure("channel (\(channel)) must be strictly in 0..<\(channelCount)")
+                break
+            }
+        }
+    }
+    
+    /// ...
+    public var alphaChannel: Storage? {
+        return alpha
+    }
+    
+    /// ...
+    public var channelCount: Int {
+        return 4
+    }
+    
+    /// ...
+    public var hue: Storage
+    
+    /// ...
+    public var saturation: Storage
+    
+    /// ...
+    public var value: Storage
+    
+    /// ...
+    public var alpha: Storage
+}
+
+/// ...
+extension HSVAColor: CustomStringConvertible {
+    
+    public var description: String {
+        return "HSVAColor<\(Storage.self)>(\(hue), \(saturation), \(value), \(alpha))"
+    }
+}
+
+/// ...
+extension HSVAColor where Storage: FloatingPointStorage {
+    
+    /// ...
+    public init(_ color: RGBColor<Storage>, alpha: Storage = Storage(1)) {
+        let (hue, saturation, value) = Storage.convert(red:color.red, green:color.green, blue:color.blue)
+        self.init(hue, saturation, value, alpha)
+    }
+    
+    /// ...
+    public init<OtherStorage: EncodableStorage>(_ color: HSVColor<OtherStorage>, alpha: Storage = Storage(1)) {
+        let hue: Storage = OtherStorage.decode(encodedStorage:color.hue)
+        let saturation: Storage = OtherStorage.decode(encodedStorage:color.saturation)
+        let value: Storage = OtherStorage.decode(encodedStorage:color.value)
+        self.init(hue, saturation, value, alpha)
+    }
+    
+    /// ...
+    public init<OtherStorage: EncodableStorage>(_ color: HSVAColor<OtherStorage>) {
+        let hue: Storage = OtherStorage.decode(encodedStorage:color.hue)
+        let saturation: Storage = OtherStorage.decode(encodedStorage:color.saturation)
+        let value: Storage = OtherStorage.decode(encodedStorage:color.value)
+        let alpha: Storage = OtherStorage.decode(encodedStorage:color.alpha)
+        self.init(hue, saturation, value, alpha)
+    }
+}
+
+/// ...
+extension HSVAColor where Storage: EncodableStorage {
+    
+    /// ...
+    public init<OtherStorage: FloatingPointStorage>(_ color: HSVColor<OtherStorage>, alpha: Storage = Storage.max) {
+        let hue = Storage.encode(floatingStorage:color.hue)
+        let saturation = Storage.encode(floatingStorage:color.saturation)
+        let value = Storage.encode(floatingStorage:color.value)
+        self.init(hue, saturation, value, alpha)
+    }
+
+    /// ...
+    public init<OtherStorage: FloatingPointStorage>(_ color: HSVAColor<OtherStorage>) {
+        let hue = Storage.encode(floatingStorage:color.hue)
+        let saturation = Storage.encode(floatingStorage:color.saturation)
+        let value = Storage.encode(floatingStorage:color.value)
+        let alpha = Storage.encode(floatingStorage:color.alpha)
+        self.init(hue, saturation, value, alpha)
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /// ...
 public struct RGBColor<Storage>: Color {
