@@ -42,6 +42,16 @@
         }
         
         ///
+        public convenience init(_ color: GrayAlphaColor<Float>) {
+            self.init(white:CGFloat(color.gray), alpha:CGFloat(color.alpha))
+        }
+        
+        ///
+        public convenience init(_ color: GrayAlphaColor<Double>) {
+            self.init(white:CGFloat(color.gray), alpha:CGFloat(color.alpha))
+        }
+        
+        ///
         public convenience init(_ color: HSVColor<Float>) {
             self.init(hue:CGFloat(color.hue), saturation:CGFloat(color.saturation), brightness:CGFloat(color.value), alpha:1.0)
         }
@@ -77,6 +87,16 @@
         ///
         public convenience init(_ color: GrayColor<Double>) {
             self.init(white:CGFloat(color.gray), alpha:1.0)
+        }
+        
+        ///
+        public convenience init(_ color: GrayAlphaColor<Float>) {
+            self.init(white:CGFloat(color.gray), alpha:CGFloat(color.alpha))
+        }
+        
+        ///
+        public convenience init(_ color: GrayAlphaColor<Double>) {
+            self.init(white:CGFloat(color.gray), alpha:CGFloat(color.alpha))
         }
 
         ///

@@ -63,6 +63,26 @@ public func random() -> GrayColor<Double> {
     return GrayColor(Double(uniform()))
 }
 
+/// Returns a uniform GrayAlphaColor<UInt8>
+public func random() -> GrayAlphaColor<UInt8> {
+    return GrayAlphaColor(UInt8.encode(floatingStorage:uniform()), UInt8.encode(floatingStorage:uniform()))
+}
+
+/// Returns a uniform GrayColor<UInt16>
+public func random() -> GrayAlphaColor<UInt16> {
+    return GrayAlphaColor(UInt16.encode(floatingStorage:uniform()), UInt16.encode(floatingStorage:uniform()))
+}
+
+/// Returns a uniform GrayColor<Float>
+public func random() -> GrayAlphaColor<Float> {
+    return GrayAlphaColor(uniform(), uniform())
+}
+
+/// Returns a uniform GrayColor<Double>
+public func random() -> GrayAlphaColor<Double> {
+    return GrayAlphaColor(Double(uniform()), Double(uniform()))
+}
+
 /// Returns a uniform HSVColor<UInt8>
 public func random() -> HSVColor<UInt8> {
     let r = UInt8.encode(floatingStorage:uniform())
@@ -146,9 +166,34 @@ class AlchemyColorTests: XCTestCase {
             assayBounds(of:gray3, min:0.0, max:1.0)
             let gray4 = GrayColor<Double>(random() as RGBColor<Double>)
             assayBounds(of:gray4, min:0.0, max:1.0)
+            
+            let gray5 = GrayColor<UInt8>(random() as GrayAlphaColor<Float>)
+            assayBounds(of:gray5, min:UInt8.min, max:UInt8.max)
+            let gray6 = GrayColor<Double>(random() as GrayAlphaColor<UInt16>)
+            assayBounds(of:gray6, min:0.0, max:1.0)
         }
     }
-    
+
+    /// ...
+    func testGrayAlphaColor() {
+        for _ in 0..<sampleCount {
+            let gray1 = GrayAlphaColor<UInt8>(random() as GrayAlphaColor<Float>)
+            assayBounds(of:gray1, min:UInt8.min, max:UInt8.max)
+            let gray2 = GrayAlphaColor<Double>(random() as GrayAlphaColor<UInt16>)
+            assayBounds(of:gray2, min:0.0, max:1.0)
+            
+            let gray3 = GrayAlphaColor<Float>(random() as RGBColor<Float>)
+            assayBounds(of:gray3, min:0.0, max:1.0)
+            let gray4 = GrayAlphaColor<Double>(random() as RGBColor<Double>)
+            assayBounds(of:gray4, min:0.0, max:1.0)
+            
+            let gray5 = GrayAlphaColor<UInt8>(random() as GrayColor<Float>)
+            assayBounds(of:gray5, min:UInt8.min, max:UInt8.max)
+            let gray6 = GrayAlphaColor<Double>(random() as GrayColor<UInt16>)
+            assayBounds(of:gray6, min:0.0, max:1.0)
+        }
+    }
+
     /// ...
     func testRGBColor() {
         for _ in 0..<sampleCount {
@@ -192,6 +237,7 @@ class AlchemyColorTests: XCTestCase {
     static var allTests : [(String, (AlchemyColorTests) -> () throws -> Void)] {
         return [
             ("testGrayColor", testGrayColor),
+            ("testGrayAlphaColor", testGrayAlphaColor),
             ("testRGBColor", testRGBColor),
             ("testHSVColor", testHSVColor)
         ]

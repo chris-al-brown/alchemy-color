@@ -102,6 +102,12 @@ private func _saturate<T: FloatingPoint>(_ value: T) -> T {
 
 /// ...
 public protocol EncodableStorage {
+
+    /// ...
+    static var min: Self { get }
+
+    /// ...
+    static var max: Self { get }
     
     /// ...
     static func decode<T: FloatingPointStorage>(encodedStorage value: Self) -> T
@@ -233,22 +239,47 @@ public protocol Color {
     
     /// ...
     subscript (channel: Int) -> ChannelStorage { get mutating set }
-    
+
+    /// ...
+    var alphaChannel: ChannelStorage? { get }
+
     /// ...
     var channelCount: Int { get }
-    
-    /// ...
-    var hasAlpha: Bool { get }
-    
-    /// ...
-    var isOpaque: Bool { get }
 }
 
 /// ...
 extension Color {
     
     /// ...
-    var isTransparent: Bool {
+    public var hasAlpha: Bool {
+        return alphaChannel != nil
+    }
+}
+
+/// ...
+extension Color where ChannelStorage: FloatingPointStorage {
+
+    /// ...
+    public var isOpaque: Bool {
+        return alphaChannel == ChannelStorage(1)
+    }
+
+    /// ...
+    public var isTransparent: Bool {
+        return !isOpaque
+    }
+}
+
+/// ...
+extension Color where ChannelStorage: protocol<EncodableStorage, Comparable> {
+    
+    /// ...
+    public var isOpaque: Bool {
+        return alphaChannel == ChannelStorage.max
+    }
+    
+    /// ...
+    public var isTransparent: Bool {
         return !isOpaque
     }
 }
@@ -287,18 +318,13 @@ public struct GrayColor<Storage>: Color {
     }
     
     /// ...
+    public var alphaChannel: Storage? {
+        return nil
+    }
+    
+    /// ...
     public var channelCount: Int {
         return 1
-    }
-    
-    /// ...
-    public var hasAlpha: Bool {
-        return false
-    }
-    
-    /// ...
-    public var isOpaque: Bool {
-        return true
     }
     
     public var gray: Storage
@@ -324,6 +350,11 @@ extension GrayColor where Storage: FloatingPointStorage {
     public init<OtherStorage: EncodableStorage>(_ color: GrayColor<OtherStorage>) {
         self.init(OtherStorage.decode(encodedStorage:color.gray))
     }
+    
+    /// ...
+    public init<OtherStorage: EncodableStorage>(_ color: GrayAlphaColor<OtherStorage>) {
+        self.init(OtherStorage.decode(encodedStorage:color.gray))
+    }
 }
 
 /// ...
@@ -333,7 +364,117 @@ extension GrayColor where Storage: EncodableStorage {
     public init<OtherStorage: FloatingPointStorage>(_ color: GrayColor<OtherStorage>) {
         self.init(Storage.encode(floatingStorage:color.gray))
     }
+    
+    /// ...
+    public init<OtherStorage: FloatingPointStorage>(_ color: GrayAlphaColor<OtherStorage>) {
+        self.init(Storage.encode(floatingStorage:color.gray))
+    }
 }
+
+/// ...
+public struct GrayAlphaColor<Storage>: Color {
+    
+    /// ...
+    public typealias ChannelStorage = Storage
+    
+    /// ...
+    public init(_ gray: Storage, _ alpha: Storage) {
+        self.gray = gray
+        self.alpha = alpha
+    }
+    
+    /// ...
+    public subscript (channel: Int) -> Storage {
+        get {
+            switch channel {
+            case 0:
+                return gray
+            case 1:
+                return alpha
+            default:
+                assertionFailure("channel (\(channel)) must be strictly in 0..<\(channelCount)")
+                return gray
+            }
+        }
+        mutating set {
+            switch channel {
+            case 0:
+                gray = newValue
+            case 1:
+                alpha = newValue
+            default:
+                assertionFailure("channel (\(channel)) must be strictly in 0..<\(channelCount)")
+                break
+            }
+        }
+    }
+    
+    /// ...
+    public var alphaChannel: Storage? {
+        return alpha
+    }
+
+    /// ...
+    public var channelCount: Int {
+        return 2
+    }
+    
+    /// ...
+    public var gray: Storage
+    
+    /// ...
+    public var alpha: Storage
+}
+
+/// ...
+extension GrayAlphaColor: CustomStringConvertible {
+    
+    public var description: String {
+        return "GrayAlphaColor<\(Storage.self)>(\(gray), \(alpha))"
+    }
+}
+
+/// ...
+extension GrayAlphaColor where Storage: FloatingPointStorage {
+    
+    /// ...
+    public init(_ color: RGBColor<Storage>) {
+        self.init(Storage.luminance(red:color.red, green:color.green, blue:color.blue), Storage(1))
+    }
+    
+    /// ...
+    public init<OtherStorage: EncodableStorage>(_ color: GrayColor<OtherStorage>) {
+        self.init(OtherStorage.decode(encodedStorage:color.gray), Storage(1))
+    }
+    
+    /// ...
+    public init<OtherStorage: EncodableStorage>(_ color: GrayAlphaColor<OtherStorage>) {
+        self.init(OtherStorage.decode(encodedStorage:color.gray), OtherStorage.decode(encodedStorage:color.alpha))
+    }
+}
+
+/// ...
+extension GrayAlphaColor where Storage: EncodableStorage {
+    
+    /// ...
+    public init<OtherStorage: FloatingPointStorage>(_ color: GrayColor<OtherStorage>) {
+        self.init(Storage.encode(floatingStorage:color.gray), Storage.encode(floatingStorage:OtherStorage(1)))
+    }
+    
+    /// ...
+    public init<OtherStorage: FloatingPointStorage>(_ color: GrayAlphaColor<OtherStorage>) {
+        self.init(Storage.encode(floatingStorage:color.gray), Storage.encode(floatingStorage:OtherStorage(1)))
+    }
+}
+
+
+
+
+
+
+
+
+
 
 /// ...
 public struct HSVColor<Storage>: Color {
@@ -379,18 +520,13 @@ public struct HSVColor<Storage>: Color {
     }
 
     /// ...
+    public var alphaChannel: Storage? {
+        return nil
+    }
+
+    /// ...
     public var channelCount: Int {
         return 3
-    }
-
-    /// ...
-    public var hasAlpha: Bool {
-        return false
-    }
-
-    /// ...
-    public var isOpaque: Bool {
-        return true
     }
 
     /// ...
@@ -458,6 +594,11 @@ public struct RGBColor<Storage>: Color {
     public init(_ color: GrayColor<Storage>) {
         self.init(color.gray, color.gray, color.gray)
     }
+    
+    /// ...
+    public init(_ color: GrayAlphaColor<Storage>) {
+        self.init(color.gray, color.gray, color.gray)
+    }
 
     /// ...
     public subscript (channel: Int) -> Storage {
@@ -490,18 +631,13 @@ public struct RGBColor<Storage>: Color {
     }
     
     /// ...
+    public var alphaChannel: Storage? {
+        return nil
+    }
+
+    /// ...
     public var channelCount: Int {
         return 3
-    }
-    
-    /// ...
-    public var hasAlpha: Bool {
-        return false
-    }
-    
-    /// ...
-    public var isOpaque: Bool {
-        return true
     }
     
     /// ...
