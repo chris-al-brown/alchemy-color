@@ -45,7 +45,7 @@ import PackageDescription
 let package = Package(
     name: "MyProjectUsingAlchemyColor",
     dependencies: [
-        .Package(url: "https://github.com/chris-al-brown/alchemy-color", majorVersion: 0, minor: 1)
+        .Package(url: "https://github.com/chris-al-brown/alchemy-color", majorVersion: 0, minor: 2)
     ]
 )
 ```
@@ -70,6 +70,6 @@ AlchemyColor is released under the [MIT License](LICENSE.md).
 
 - [x] Add NSColor, UIColor conversion methods
 - [x] Add GrayAlphaColor
-- [ ] Add RGBAColor
+- [x] Add RGBAColor
 - [x] Add HSVAColor
 - [ ] Add String/Int hex init methods
