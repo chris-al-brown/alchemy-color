@@ -123,10 +123,10 @@ extension UInt8: EncodableStorage {
     
     /// ...
     public static func encode<T: FloatingPointStorage>(floatingStorage value: T) -> UInt8 {
-        switch sizeof(T) {
-        case sizeof(Float):
+        switch sizeof(T.self) {
+        case sizeof(Float.self):
             return UInt8(unsafeBitCast(_saturate(value), to:Float.self) * Float(UInt8.max))
-        case sizeof(Double):
+        case sizeof(Double.self):
             return UInt8(unsafeBitCast(_saturate(value), to:Double.self) * Double(UInt8.max))
         default:
             fatalError("encode(channel:\(T.self)) expects CGFloat, Float, or Double and received \(T.self)")
@@ -144,10 +144,10 @@ extension UInt16: EncodableStorage {
     
     /// ...
     public static func encode<T: FloatingPointStorage>(floatingStorage value: T) -> UInt16 {
-        switch sizeof(T) {
-        case sizeof(Float):
+        switch sizeof(T.self) {
+        case sizeof(Float.self):
             return UInt16(unsafeBitCast(_saturate(value), to:Float.self) * Float(UInt16.max))
-        case sizeof(Double):
+        case sizeof(Double.self):
             return UInt16(unsafeBitCast(_saturate(value), to:Double.self) * Double(UInt16.max))
         default:
             fatalError("encode(channel:\(T.self)) expects CGFloat, Float, or Double and received \(T.self)")
@@ -165,10 +165,10 @@ extension UInt32: EncodableStorage {
     
     /// ...
     public static func encode<T: FloatingPointStorage>(floatingStorage value: T) -> UInt32 {
-        switch sizeof(T) {
-        case sizeof(Float):
+        switch sizeof(T.self) {
+        case sizeof(Float.self):
             return UInt32(unsafeBitCast(_saturate(value), to:Float.self) * Float(UInt32.max))
-        case sizeof(Double):
+        case sizeof(Double.self):
             return UInt32(unsafeBitCast(_saturate(value), to:Double.self) * Double(UInt32.max))
         default:
             fatalError("encode(channel:\(T.self)) expects CGFloat, Float, or Double and received \(T.self)")
