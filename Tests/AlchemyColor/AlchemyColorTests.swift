@@ -220,6 +220,8 @@ class AlchemyColorTests: XCTestCase {
     
     /// ...
     func testGrayColor() {
+        XCTAssert(GrayColor<Float>(0.1) == GrayColor<Float>(0.1), "GrayColor failed equality")
+        XCTAssert(GrayColor<UInt8>(0x1) == GrayColor<UInt8>(0x1), "GrayColor failed equality")
         let gray = random() as GrayColor<Float>
         XCTAssert(!gray.hasAlpha, "\(gray) should not have an alpha channel")
         XCTAssert(gray.channelCount == 1, "\(gray) should have 1 channel")
@@ -243,6 +245,8 @@ class AlchemyColorTests: XCTestCase {
 
     /// ...
     func testGrayAlphaColor() {
+        XCTAssert(GrayAlphaColor<Float>(0.1, 0.2) == GrayAlphaColor<Float>(0.1, 0.2), "GrayAlphaColor failed equality")
+        XCTAssert(GrayAlphaColor<UInt8>(0x1, 0x2) == GrayAlphaColor<UInt8>(0x1, 0x2), "GrayAlphaColor failed equality")
         let gray = random() as GrayAlphaColor<Float>
         XCTAssert(gray.hasAlpha, "\(gray) should have an alpha channel")
         XCTAssert(gray.channelCount == 2, "\(gray) should have 2 channels")
@@ -266,6 +270,8 @@ class AlchemyColorTests: XCTestCase {
 
     /// ...
     func testRGBColor() {
+        XCTAssert(RGBColor<Float>(0.1, 0.2, 0.3) == RGBColor<Float>(0.1, 0.2, 0.3), "RGBColor failed equality")
+        XCTAssert(RGBColor<UInt8>(0x1, 0x2, 0x3) == RGBColor<UInt8>(0x1, 0x2, 0x3), "RGBColor failed equality")
         let rgb = random() as RGBColor<Float>
         XCTAssert(!rgb.hasAlpha, "\(rgb) should not have an alpha channel")
         XCTAssert(rgb.channelCount == 3, "\(rgb) should have 3 channels")
@@ -298,6 +304,8 @@ class AlchemyColorTests: XCTestCase {
     
     /// ...
     func testRGBAColor() {
+        XCTAssert(RGBAColor<Float>(0.1, 0.2, 0.3, 0.4) == RGBAColor<Float>(0.1, 0.2, 0.3, 0.4), "RGBAColor failed equality")
+        XCTAssert(RGBAColor<UInt8>(0x1, 0x2, 0x3, 0x4) == RGBAColor<UInt8>(0x1, 0x2, 0x3, 0x4), "RGBAColor failed equality")
         let rgba = random() as RGBAColor<Float>
         XCTAssert(rgba.hasAlpha, "\(rgba) should have an alpha channel")
         XCTAssert(rgba.channelCount == 4, "\(rgba) should have 4 channels")
@@ -330,6 +338,8 @@ class AlchemyColorTests: XCTestCase {
     
     /// ...
     func testHSVColor() {
+        XCTAssert(HSVColor<Float>(0.1, 0.2, 0.3) == HSVColor<Float>(0.1, 0.2, 0.3), "HSVColor failed equality")
+        XCTAssert(HSVColor<UInt8>(0x1, 0x2, 0x3) == HSVColor<UInt8>(0x1, 0x2, 0x3), "HSVColor failed equality")
         let hsv = random() as HSVColor<Float>
         XCTAssert(!hsv.hasAlpha, "\(hsv) should not have an alpha channel")
         XCTAssert(hsv.channelCount == 3, "\(hsv) should have 3 channels")
@@ -353,6 +363,8 @@ class AlchemyColorTests: XCTestCase {
 
     /// ...
     func testHSVAColor() {
+        XCTAssert(HSVAColor<Float>(0.1, 0.2, 0.3, 0.4) == HSVAColor<Float>(0.1, 0.2, 0.3, 0.4), "HSVAColor failed equality")
+        XCTAssert(HSVAColor<UInt8>(0x1, 0x2, 0x3, 0x4) == HSVAColor<UInt8>(0x1, 0x2, 0x3, 0x4), "HSVAColor failed equality")
         let hsva = random() as HSVAColor<Float>
         XCTAssert(hsva.hasAlpha, "\(hsva) should have an alpha channel")
         XCTAssert(hsva.channelCount == 4, "\(hsva) should have 4 channels")
