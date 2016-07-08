@@ -228,10 +228,10 @@ extension Double: FloatingPointStorage {
 }
 
 /// ...
-public protocol Color {
+public protocol Color: Hashable {
     
     /// ...
-    associatedtype ChannelStorage
+    associatedtype ChannelStorage: Hashable
     
     /// ...
     subscript (channel: Int) -> ChannelStorage { get mutating set }
@@ -281,7 +281,7 @@ extension Color where ChannelStorage: protocol<EncodableStorage, Comparable> {
 }
 
 /// ...
-public struct GrayColor<Storage>: Color {
+public struct GrayColor<Storage: Hashable>: Color {
     
     /// ...
     public typealias ChannelStorage = Storage
@@ -340,6 +340,20 @@ extension GrayColor: CustomStringConvertible {
 }
 
 /// ...
+extension GrayColor where Storage: EncodableStorage {
+    
+    /// ...
+    public init<OtherStorage: FloatingPointStorage>(_ color: GrayColor<OtherStorage>) {
+        self.init(Storage.encode(floatingStorage:color.gray))
+    }
+    
+    /// ...
+    public init<OtherStorage: FloatingPointStorage>(_ color: GrayAlphaColor<OtherStorage>) {
+        self.init(Storage.encode(floatingStorage:color.gray))
+    }
+}
+
+/// ...
 extension GrayColor where Storage: FloatingPointStorage {
     
     /// ...
@@ -364,21 +378,21 @@ extension GrayColor where Storage: FloatingPointStorage {
 }
 
 /// ...
-extension GrayColor where Storage: EncodableStorage {
+extension GrayColor: Equatable {}
+public func ==<T>(lhs: GrayColor<T>, rhs: GrayColor<T>) -> Bool {
+    return lhs.gray == rhs.gray
+}
 
-    /// ...
-    public init<OtherStorage: FloatingPointStorage>(_ color: GrayColor<OtherStorage>) {
-        self.init(Storage.encode(floatingStorage:color.gray))
-    }
+/// ...
+extension GrayColor: Hashable {
     
-    /// ...
-    public init<OtherStorage: FloatingPointStorage>(_ color: GrayAlphaColor<OtherStorage>) {
-        self.init(Storage.encode(floatingStorage:color.gray))
+    public var hashValue: Int {
+        return gray.hashValue
     }
 }
 
 /// ...
-public struct GrayAlphaColor<Storage>: Color {
+public struct GrayAlphaColor<Storage: Hashable>: Color {
     
     /// ...
     public typealias ChannelStorage = Storage
@@ -441,6 +455,20 @@ extension GrayAlphaColor: CustomStringConvertible {
 }
 
 /// ...
+extension GrayAlphaColor where Storage: EncodableStorage {
+    
+    /// ...
+    public init<OtherStorage: FloatingPointStorage>(_ color: GrayColor<OtherStorage>, alpha: Storage = Storage.max) {
+        self.init(Storage.encode(floatingStorage:color.gray), alpha)
+    }
+    
+    /// ...
+    public init<OtherStorage: FloatingPointStorage>(_ color: GrayAlphaColor<OtherStorage>) {
+        self.init(Storage.encode(floatingStorage:color.gray), Storage.encode(floatingStorage:color.alpha))
+    }
+}
+
+/// ...
 extension GrayAlphaColor where Storage: FloatingPointStorage {
     
     /// ...
@@ -465,21 +493,22 @@ extension GrayAlphaColor where Storage: FloatingPointStorage {
 }
 
 /// ...
-extension GrayAlphaColor where Storage: EncodableStorage {
+extension GrayAlphaColor: Equatable {}
+public func ==<T>(lhs: GrayAlphaColor<T>, rhs: GrayAlphaColor<T>) -> Bool {
+    return lhs.gray == rhs.gray &&
+        lhs.alpha == rhs.alpha
+}
+
+/// ...
+extension GrayAlphaColor: Hashable {
     
-    /// ...
-    public init<OtherStorage: FloatingPointStorage>(_ color: GrayColor<OtherStorage>, alpha: Storage = Storage.max) {
-        self.init(Storage.encode(floatingStorage:color.gray), alpha)
-    }
-    
-    /// ...
-    public init<OtherStorage: FloatingPointStorage>(_ color: GrayAlphaColor<OtherStorage>) {
-        self.init(Storage.encode(floatingStorage:color.gray), Storage.encode(floatingStorage:color.alpha))
+    public var hashValue: Int {
+        return gray.hashValue ^ alpha.hashValue
     }
 }
 
 /// ...
-public struct HSVColor<Storage>: Color {
+public struct HSVColor<Storage: Hashable>: Color {
 
     /// ...
     public typealias ChannelStorage = Storage
@@ -555,6 +584,26 @@ extension HSVColor: CustomStringConvertible {
 }
 
 /// ...
+extension HSVColor where Storage: EncodableStorage {
+    
+    /// ...
+    public init<OtherStorage: FloatingPointStorage>(_ color: HSVColor<OtherStorage>) {
+        let hue = Storage.encode(floatingStorage:color.hue)
+        let saturation = Storage.encode(floatingStorage:color.saturation)
+        let value = Storage.encode(floatingStorage:color.value)
+        self.init(hue, saturation, value)
+    }
+    
+    /// ...
+    public init<OtherStorage: FloatingPointStorage>(_ color: HSVAColor<OtherStorage>) {
+        let hue = Storage.encode(floatingStorage:color.hue)
+        let saturation = Storage.encode(floatingStorage:color.saturation)
+        let value = Storage.encode(floatingStorage:color.value)
+        self.init(hue, saturation, value)
+    }
+}
+
+/// ...
 extension HSVColor where Storage: FloatingPointStorage {
     
     /// ...
@@ -584,31 +633,26 @@ extension HSVColor where Storage: FloatingPointStorage {
         let value: Storage = OtherStorage.decode(encodedStorage:color.value)
         self.init(hue, saturation, value)
     }
-
 }
 
 /// ...
-extension HSVColor where Storage: EncodableStorage {
+extension HSVColor: Equatable {}
+public func ==<T>(lhs: HSVColor<T>, rhs: HSVColor<T>) -> Bool {
+    return lhs.hue == rhs.hue &&
+        lhs.saturation == rhs.saturation &&
+        lhs.value == rhs.value
+}
+
+/// ...
+extension HSVColor: Hashable {
     
-    /// ...
-    public init<OtherStorage: FloatingPointStorage>(_ color: HSVColor<OtherStorage>) {
-        let hue = Storage.encode(floatingStorage:color.hue)
-        let saturation = Storage.encode(floatingStorage:color.saturation)
-        let value = Storage.encode(floatingStorage:color.value)
-        self.init(hue, saturation, value)
-    }
-
-    /// ...
-    public init<OtherStorage: FloatingPointStorage>(_ color: HSVAColor<OtherStorage>) {
-        let hue = Storage.encode(floatingStorage:color.hue)
-        let saturation = Storage.encode(floatingStorage:color.saturation)
-        let value = Storage.encode(floatingStorage:color.value)
-        self.init(hue, saturation, value)
+    public var hashValue: Int {
+        return hue.hashValue ^ saturation.hashValue ^ value.hashValue
     }
 }
 
 /// ...
-public struct HSVAColor<Storage>: Color {
+public struct HSVAColor<Storage: Hashable>: Color {
     
     /// ...
     public typealias ChannelStorage = Storage
@@ -687,6 +731,32 @@ extension HSVAColor: CustomStringConvertible {
 }
 
 /// ...
+extension HSVAColor where Storage: EncodableStorage {
+    
+    /// ...
+    public init(_ color: HSVColor<Storage>, alpha: Storage = Storage.max) {
+        self.init(color.hue, color.saturation, color.value, alpha)
+    }
+    
+    /// ...
+    public init<OtherStorage: FloatingPointStorage>(_ color: HSVColor<OtherStorage>, alpha: Storage = Storage.max) {
+        let hue = Storage.encode(floatingStorage:color.hue)
+        let saturation = Storage.encode(floatingStorage:color.saturation)
+        let value = Storage.encode(floatingStorage:color.value)
+        self.init(hue, saturation, value, alpha)
+    }
+    
+    /// ...
+    public init<OtherStorage: FloatingPointStorage>(_ color: HSVAColor<OtherStorage>) {
+        let hue = Storage.encode(floatingStorage:color.hue)
+        let saturation = Storage.encode(floatingStorage:color.saturation)
+        let value = Storage.encode(floatingStorage:color.value)
+        let alpha = Storage.encode(floatingStorage:color.alpha)
+        self.init(hue, saturation, value, alpha)
+    }
+}
+
+/// ...
 extension HSVAColor where Storage: FloatingPointStorage {
 
     /// ...
@@ -725,33 +795,24 @@ extension HSVAColor where Storage: FloatingPointStorage {
 }
 
 /// ...
-extension HSVAColor where Storage: EncodableStorage {
+extension HSVAColor: Equatable {}
+public func ==<T>(lhs: HSVAColor<T>, rhs: HSVAColor<T>) -> Bool {
+    return lhs.hue == rhs.hue &&
+        lhs.saturation == rhs.saturation &&
+        lhs.value == rhs.value &&
+        lhs.alpha == rhs.alpha
+}
+
+/// ...
+extension HSVAColor: Hashable {
     
-    /// ...
-    public init(_ color: HSVColor<Storage>, alpha: Storage = Storage.max) {
-        self.init(color.hue, color.saturation, color.value, alpha)
-    }
-
-    /// ...
-    public init<OtherStorage: FloatingPointStorage>(_ color: HSVColor<OtherStorage>, alpha: Storage = Storage.max) {
-        let hue = Storage.encode(floatingStorage:color.hue)
-        let saturation = Storage.encode(floatingStorage:color.saturation)
-        let value = Storage.encode(floatingStorage:color.value)
-        self.init(hue, saturation, value, alpha)
-    }
-
-    /// ...
-    public init<OtherStorage: FloatingPointStorage>(_ color: HSVAColor<OtherStorage>) {
-        let hue = Storage.encode(floatingStorage:color.hue)
-        let saturation = Storage.encode(floatingStorage:color.saturation)
-        let value = Storage.encode(floatingStorage:color.value)
-        let alpha = Storage.encode(floatingStorage:color.alpha)
-        self.init(hue, saturation, value, alpha)
+    public var hashValue: Int {
+        return hue.hashValue ^ saturation.hashValue ^ value.hashValue ^ alpha.hashValue
     }
 }
 
 /// ...
-public struct RGBColor<Storage>: Color {
+public struct RGBColor<Storage: Hashable>: Color {
     
     /// ...
     public typealias ChannelStorage = Storage
@@ -837,6 +898,26 @@ extension RGBColor: CustomStringConvertible {
 }
 
 /// ...
+extension RGBColor where Storage: EncodableStorage {
+    
+    /// ...
+    public init<OtherStorage: FloatingPointStorage>(_ color: RGBColor<OtherStorage>) {
+        let red = Storage.encode(floatingStorage:color.red)
+        let green = Storage.encode(floatingStorage:color.green)
+        let blue = Storage.encode(floatingStorage:color.blue)
+        self.init(red, green, blue)
+    }
+    
+    /// ...
+    public init<OtherStorage: FloatingPointStorage>(_ color: RGBAColor<OtherStorage>) {
+        let red = Storage.encode(floatingStorage:color.red)
+        let green = Storage.encode(floatingStorage:color.green)
+        let blue = Storage.encode(floatingStorage:color.blue)
+        self.init(red, green, blue)
+    }
+}
+
+/// ...
 extension RGBColor where Storage: FloatingPointStorage {
 
     /// ...
@@ -869,27 +950,23 @@ extension RGBColor where Storage: FloatingPointStorage {
 }
 
 /// ...
-extension RGBColor where Storage: EncodableStorage {
+extension RGBColor: Equatable {}
+public func ==<T>(lhs: RGBColor<T>, rhs: RGBColor<T>) -> Bool {
+    return lhs.red == rhs.red &&
+        lhs.green == rhs.green &&
+        lhs.blue == rhs.blue
+}
+
+/// ...
+extension RGBColor: Hashable {
     
-    /// ...
-    public init<OtherStorage: FloatingPointStorage>(_ color: RGBColor<OtherStorage>) {
-        let red = Storage.encode(floatingStorage:color.red)
-        let green = Storage.encode(floatingStorage:color.green)
-        let blue = Storage.encode(floatingStorage:color.blue)
-        self.init(red, green, blue)
-    }
-    
-    /// ...
-    public init<OtherStorage: FloatingPointStorage>(_ color: RGBAColor<OtherStorage>) {
-        let red = Storage.encode(floatingStorage:color.red)
-        let green = Storage.encode(floatingStorage:color.green)
-        let blue = Storage.encode(floatingStorage:color.blue)
-        self.init(red, green, blue)
+    public var hashValue: Int {
+        return red.hashValue ^ green.hashValue ^ blue.hashValue
     }
 }
 
 /// ...
-public struct RGBAColor<Storage>: Color {
+public struct RGBAColor<Storage: Hashable>: Color {
     
     /// ...
     public typealias ChannelStorage = Storage
@@ -973,6 +1050,32 @@ extension RGBAColor: CustomStringConvertible {
 }
 
 /// ...
+extension RGBAColor where Storage: EncodableStorage {
+    
+    /// ...
+    public init(_ color: GrayColor<Storage>, alpha: Storage = Storage.max) {
+        self.init(color.gray, color.gray, color.gray, alpha)
+    }
+    
+    /// ...
+    public init<OtherStorage: FloatingPointStorage>(_ color: RGBColor<OtherStorage>, alpha: Storage = Storage.max) {
+        let red = Storage.encode(floatingStorage:color.red)
+        let green = Storage.encode(floatingStorage:color.green)
+        let blue = Storage.encode(floatingStorage:color.blue)
+        self.init(red, green, blue, alpha)
+    }
+    
+    /// ...
+    public init<OtherStorage: FloatingPointStorage>(_ color: RGBAColor<OtherStorage>) {
+        let red = Storage.encode(floatingStorage:color.red)
+        let green = Storage.encode(floatingStorage:color.green)
+        let blue = Storage.encode(floatingStorage:color.blue)
+        let alpha = Storage.encode(floatingStorage:color.alpha)
+        self.init(red, green, blue, alpha)
+    }
+}
+
+/// ...
 extension RGBAColor where Storage: FloatingPointStorage {
     
     /// ...
@@ -1016,32 +1119,159 @@ extension RGBAColor where Storage: FloatingPointStorage {
 }
 
 /// ...
-extension RGBAColor where Storage: EncodableStorage {
-    
-    /// ...
-    public init(_ color: GrayColor<Storage>, alpha: Storage = Storage.max) {
-        self.init(color.gray, color.gray, color.gray, alpha)
-    }
+extension RGBAColor: Equatable {}
+public func ==<T>(lhs: RGBAColor<T>, rhs: RGBAColor<T>) -> Bool {
+    return lhs.red == rhs.red &&
+        lhs.green == rhs.green &&
+        lhs.blue == rhs.blue &&
+        lhs.alpha == rhs.alpha
+}
 
-    /// ...
-    public init<OtherStorage: FloatingPointStorage>(_ color: RGBColor<OtherStorage>, alpha: Storage = Storage.max) {
-        let red = Storage.encode(floatingStorage:color.red)
-        let green = Storage.encode(floatingStorage:color.green)
-        let blue = Storage.encode(floatingStorage:color.blue)
-        self.init(red, green, blue, alpha)
-    }
+/// ...
+extension RGBAColor: Hashable {
     
-    /// ...
-    public init<OtherStorage: FloatingPointStorage>(_ color: RGBAColor<OtherStorage>) {
-        let red = Storage.encode(floatingStorage:color.red)
-        let green = Storage.encode(floatingStorage:color.green)
-        let blue = Storage.encode(floatingStorage:color.blue)
-        let alpha = Storage.encode(floatingStorage:color.alpha)
-        self.init(red, green, blue, alpha)
+    public var hashValue: Int {
+        return red.hashValue ^ green.hashValue ^ blue.hashValue ^ alpha.hashValue
     }
 }
 
-
+#if os(OSX)
+    
+    import AppKit
+    
+    /// ...
+    extension NSColor {
+        
+        ///
+        public convenience init(_ color: GrayColor<Float>) {
+            self.init(white:CGFloat(color.gray), alpha:1.0)
+        }
+        
+        ///
+        public convenience init(_ color: GrayColor<Double>) {
+            self.init(white:CGFloat(color.gray), alpha:1.0)
+        }
+        
+        ///
+        public convenience init(_ color: GrayAlphaColor<Float>) {
+            self.init(white:CGFloat(color.gray), alpha:CGFloat(color.alpha))
+        }
+        
+        ///
+        public convenience init(_ color: GrayAlphaColor<Double>) {
+            self.init(white:CGFloat(color.gray), alpha:CGFloat(color.alpha))
+        }
+        
+        ///
+        public convenience init(_ color: HSVColor<Float>) {
+            self.init(hue:CGFloat(color.hue), saturation:CGFloat(color.saturation), brightness:CGFloat(color.value), alpha:1.0)
+        }
+        
+        ///
+        public convenience init(_ color: HSVColor<Double>) {
+            self.init(hue:CGFloat(color.hue), saturation:CGFloat(color.saturation), brightness:CGFloat(color.value), alpha:1.0)
+        }
+        
+        ///
+        public convenience init(_ color: HSVAColor<Float>) {
+            self.init(hue:CGFloat(color.hue), saturation:CGFloat(color.saturation), brightness:CGFloat(color.value), alpha:CGFloat(color.alpha))
+        }
+        
+        ///
+        public convenience init(_ color: HSVAColor<Double>) {
+            self.init(hue:CGFloat(color.hue), saturation:CGFloat(color.saturation), brightness:CGFloat(color.value), alpha:CGFloat(color.alpha))
+        }
+        
+        ///
+        public convenience init(_ color: RGBColor<Float>) {
+            self.init(red:CGFloat(color.red), green:CGFloat(color.green), blue:CGFloat(color.blue), alpha:1.0)
+        }
+        
+        ///
+        public convenience init(_ color: RGBColor<Double>) {
+            self.init(red:CGFloat(color.red), green:CGFloat(color.green), blue:CGFloat(color.blue), alpha:1.0)
+        }
+        
+        ///
+        public convenience init(_ color: RGBAColor<Float>) {
+            self.init(red:CGFloat(color.red), green:CGFloat(color.green), blue:CGFloat(color.blue), alpha:CGFloat(color.alpha))
+        }
+        
+        ///
+        public convenience init(_ color: RGBAColor<Double>) {
+            self.init(red:CGFloat(color.red), green:CGFloat(color.green), blue:CGFloat(color.blue), alpha:CGFloat(color.alpha))
+        }
+    }
+    
+#elseif os(iOS) || os(tvOS)
+    
+    import UIKit
+    
+    /// ...
+    extension UIColor {
+        
+        ///
+        public convenience init(_ color: GrayColor<Float>) {
+            self.init(white:CGFloat(color.gray), alpha:1.0)
+        }
+        
+        ///
+        public convenience init(_ color: GrayColor<Double>) {
+            self.init(white:CGFloat(color.gray), alpha:1.0)
+        }
+        
+        ///
+        public convenience init(_ color: GrayAlphaColor<Float>) {
+            self.init(white:CGFloat(color.gray), alpha:CGFloat(color.alpha))
+        }
+        
+        ///
+        public convenience init(_ color: GrayAlphaColor<Double>) {
+            self.init(white:CGFloat(color.gray), alpha:CGFloat(color.alpha))
+        }
+        
+        ///
+        public convenience init(_ color: HSVColor<Float>) {
+            self.init(hue:CGFloat(color.hue), saturation:CGFloat(color.saturation), brightness:CGFloat(color.value), alpha:1.0)
+        }
+        
+        ///
+        public convenience init(_ color: HSVColor<Double>) {
+            self.init(hue:CGFloat(color.hue), saturation:CGFloat(color.saturation), brightness:CGFloat(color.value), alpha:1.0)
+        }
+        
+        ///
+        public convenience init(_ color: HSVAColor<Float>) {
+            self.init(hue:CGFloat(color.hue), saturation:CGFloat(color.saturation), brightness:CGFloat(color.value), alpha:CGFloat(color.alpha))
+        }
+        
+        ///
+        public convenience init(_ color: HSVAColor<Double>) {
+            self.init(hue:CGFloat(color.hue), saturation:CGFloat(color.saturation), brightness:CGFloat(color.value), alpha:CGFloat(color.alpha))
+        }
+        
+        ///
+        public convenience init(_ color: RGBColor<Float>) {
+            self.init(red:CGFloat(color.red), green:CGFloat(color.green), blue:CGFloat(color.blue), alpha:1.0)
+        }
+        
+        ///
+        public convenience init(_ color: RGBColor<Double>) {
+            self.init(red:CGFloat(color.red), green:CGFloat(color.green), blue:CGFloat(color.blue), alpha:1.0)
+        }
+        
+        ///
+        public convenience init(_ color: RGBAColor<Float>) {
+            self.init(red:CGFloat(color.red), green:CGFloat(color.green), blue:CGFloat(color.blue), alpha:CGFloat(color.alpha))
+        }
+        
+        ///
+        public convenience init(_ color: RGBAColor<Double>) {
+            self.init(red:CGFloat(color.red), green:CGFloat(color.green), blue:CGFloat(color.blue), alpha:CGFloat(color.alpha))
+        }
+    }
+    
+#endif
 
 
 
